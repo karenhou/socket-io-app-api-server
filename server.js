@@ -1,22 +1,23 @@
 const express = require("express");
 const app = express();
-const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-
 dotenv.config();
 
-mongoose.connect(
-  process.env.MONGO_URL,
-  { useNewUrlParser: true, useUnifiedTopology: true },
-  () => {
-    console.log("Connected to MongoDB");
-  }
-);
+const connectDB = require("./config/db");
+connectDB();
+const cors = require("cors");
+const { errorHandler } = require("./middleware/errorMiddleware");
 
 //middleware
+app.use(errorHandler);
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cors());
 
-const PORT = 8900;
+app.use("/api/auth", require("./routes/authRoutes"));
+
+const PORT = process.env.PORT || 5000;
+
 app.listen(PORT, () => {
-  console.log("API server is running!", PORT);
+  console.log(`API server is running! on ${PORT}`);
 });
