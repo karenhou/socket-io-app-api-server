@@ -35,7 +35,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
     //save user and respond
     const user = await newUser.save();
-    res.status(200).json(user);
+    res.status(200).json({ ...user, id_token: generateToken(user._id) });
   } catch (err) {
     console.log("registerUser err ", err);
     res.status(400).json({
