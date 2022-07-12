@@ -3,6 +3,13 @@ const bcrypt = require("bcrypt");
 const asyncHandler = require("express-async-handler");
 const User = require("../models/User");
 
+// Generate JWT
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: "1d",
+  });
+};
+
 // @desc    Register new user
 // @route   POST /api/auth/register
 // @access  Public
@@ -76,14 +83,52 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
-// Generate JWT
-const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: "1d",
-  });
-};
+// @desc    update existing user profile information
+// @route   POST /api/auth/update-profile
+// @access  Private
+const updateUser = asyncHandler(async (req, res) => {
+  try {
+    // const user = await User.findOne({ email: req.body.email });
+    // if (!user) {
+    //   throw new Error("User not found");
+    // }
+    // // !user && res.status(404).json("user not found");
+    // const validPassword = await bcrypt.compare(
+    //   req.body.password,
+    //   user.password
+    // );
+    // if (!validPassword) {
+    //   throw new Error("wrong password");
+    // }
+    // // !validPassword && res.status(400).json("wrong password");
+    // console.log("loginUser", user);
+    // res.status(200).json({ user, id_token: generateToken(user._id) });
+  } catch (err) {
+    console.log("updateUser err ", err);
+    res.status(400).json({
+      msg: err.message,
+    });
+  }
+});
+
+// @desc    get user profile information
+// @route   POST /api/auth/get-profile
+// @access  Private
+const getUser = asyncHandler(async (req, res) => {
+  try {
+    console.log("getUser", req.user);
+    res.status(200).json({ user: req.user });
+  } catch (err) {
+    console.log("getUser err ", err);
+    res.status(400).json({
+      msg: err.message,
+    });
+  }
+});
 
 module.exports = {
   registerUser,
   loginUser,
+  updateUser,
+  getUser,
 };

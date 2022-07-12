@@ -20,6 +20,32 @@ const UserSchema = new mongoose.Schema(
       required: true,
       min: 4,
     },
+    avatar: {
+      type: String,
+      default: "https://www.flaticon.com/free-icons/user",
+    },
+    heroImg: {
+      type: String,
+      default: "https://www.flaticon.com/free-icons/empty",
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+    updatedAt: {
+      type: Date,
+      default: Date.now,
+    },
+    lastLoginAt: {
+      type: Date,
+      default: Date.now,
+    },
+    interests: [
+      {
+        type: String,
+        default: "",
+      },
+    ],
   },
   { timestamps: true }
 );
