@@ -86,6 +86,7 @@ const loginUser = asyncHandler(async (req, res) => {
 // @desc    update existing user profile information
 // @route   POST /api/auth/update-profile
 // @access  Private
+// TODO need to add update user information like upload pix and background pix, etc
 const updateUser = asyncHandler(async (req, res) => {
   try {
     // const user = await User.findOne({ email: req.body.email });
@@ -116,6 +117,7 @@ const updateUser = asyncHandler(async (req, res) => {
 // @access  Private
 const getUser = asyncHandler(async (req, res) => {
   try {
+    //TODO, need to fetch
     console.log("getUser", req.user);
     res.status(200).json({ user: req.user });
   } catch (err) {
