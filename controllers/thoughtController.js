@@ -9,7 +9,7 @@ const getThoughts = asyncHandler(async (req, res) => {
   try {
     const thoughts = await Thought.find({
       email: req.query.email,
-    });
+    }).sort({ createdAt: -1 });
     console.log("getThoughts", thoughts);
     res.status(200).json({ thoughts });
   } catch (err) {
@@ -38,7 +38,7 @@ const postThought = asyncHandler(async (req, res) => {
     if (result) {
       const thoughts = await Thought.find({
         email: req.body.email,
-      });
+      }).sort({ createdAt: -1 });
       res.status(200).json({ thoughts });
     }
   } catch (err) {
